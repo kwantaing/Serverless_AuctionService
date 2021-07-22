@@ -9,6 +9,7 @@ async function processAuctions(event, context) {
 			closeAuction(auction)
 		);
 		await Promise.all(closePromises);
+		return { closed: closePromises.length };
 	} catch (error) {
 		console.error(error);
 		throw new createError.InternalServerError(error);
