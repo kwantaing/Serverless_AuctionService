@@ -1,5 +1,7 @@
 import AWS from "aws-sdk";
 import commonMiddleWare from "../lib/commonMiddleWare";
+import validator from "@middy/validator";
+import placeBidSchema from "../lib/schemas/placeBidSchema";
 import createError from "http-errors";
 import { getAuctionById } from "./getAuction";
 
@@ -44,4 +46,8 @@ async function placeBid(event, context) {
 		body: JSON.stringify(updatedAuction), // need to return stringified object
 	};
 }
-export const handler = commonMiddleWare(placeBid);
+export const handler = commonMiddleWare(placeBid).use(
+	validator({
+		inputSchema: placeBidSchema,
+	})
+);
